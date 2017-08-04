@@ -266,7 +266,7 @@ export class AgmDataLayer implements OnInit, OnDestroy, OnChanges {
       return;
     }
 
-    var geoJsonChange = changes['geoJson'];
+    let geoJsonChange = changes['geoJson'];
     if (geoJsonChange) {
       this._manager.updateGeoJson(this, geoJsonChange.currentValue);
     }

@@ -415,7 +415,7 @@ export interface StyleOptions {
   cursor?: boolean;
   draggable?: boolean;
   editable?: boolean;
-  fillColor? :string;
+  fillColor? : string;
   fillOpacity?: number;
   icon?: string;
   shape?: any;
