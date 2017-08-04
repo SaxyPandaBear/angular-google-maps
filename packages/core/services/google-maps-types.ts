@@ -389,7 +389,7 @@ export interface Data extends MVCObject {
   * Tslint configuration check-parameters will prompt errors for these lines of code.
   * https://palantir.github.io/tslint/rules/no-unused-variable/
   */
-  setStyle(style: () => void): void;
+  setStyle(style: (feature: Feature) => StyleOptions | StyleOptions): void;
   forEach(callback: (feature: Feature) => void): void;
   loadGeoJson(url: string, options?: GeoJsonOptions, callback?: (feats: Feature[]) => void): void;
   /* tslint:enable */
@@ -407,7 +407,24 @@ export interface DataOptions{
   drawingMode?: string;
   featureFactory?: (geometry: Geometry) => Feature;
   map?: GoogleMap;
-  style?: () => void;
+  style?: (feature: Feature) => StyleOptions | StyleOptions;
+}
+
+export interface StyleOptions {
+  clickable?: boolean;
+  cursor?: boolean;
+  draggable?: boolean;
+  editable?: boolean;
+  fillColor? :string;
+  fillOpacity?: number;
+  icon?: string;
+  shape?: any;
+  strokeColor?: string;
+  strokeOpacity?: number;
+  strokeWeight?: number;
+  title?: string;
+  visible?: boolean;
+  zIndex?: number;
 }
 
 export interface DataMouseEvent extends MouseEvent {

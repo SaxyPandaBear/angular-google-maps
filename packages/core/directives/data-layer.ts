@@ -1,8 +1,8 @@
-import { Directive, EventEmitter, OnDestroy, OnInit, OnChanges, SimpleChanges, Input, Output } from '@angular/core';
-import { Subscription } from 'rxjs/Subscription';
+import {Directive, EventEmitter, OnDestroy, OnInit, OnChanges, SimpleChanges, Input, Output} from '@angular/core';
+import {Subscription} from 'rxjs/Subscription';
 
-import { DataMouseEvent, DataOptions } from './../services/google-maps-types';
-import { DataLayerManager } from './../services/managers/data-layer-manager';
+import {DataMouseEvent, DataOptions, Feature, StyleOptions} from './../services/google-maps-types';
+import {DataLayerManager} from './../services/managers/data-layer-manager';
 
 let layerId = 0;
 
@@ -219,9 +219,10 @@ export class AgmDataLayer implements OnInit, OnDestroy, OnChanges {
   /**
    * The layer's style function.
    */
-  @Input() style: () => void;
+  @Input() style: (feature: Feature) => StyleOptions | StyleOptions;
 
-  constructor(private _manager: DataLayerManager) { }
+  constructor(private _manager: DataLayerManager) {
+  }
 
   ngOnInit() {
     if (this._addedToManager) {
@@ -234,7 +235,7 @@ export class AgmDataLayer implements OnInit, OnDestroy, OnChanges {
 
   private _addEventListeners() {
     const listeners = [
-      { name: 'click', handler: (ev: DataMouseEvent) => this.layerClick.emit(ev) },
+      {name: 'click', handler: (ev: DataMouseEvent) => this.layerClick.emit(ev)},
     ];
     listeners.forEach((obj) => {
       const os = this._manager.createEventObservable(obj.name, this).subscribe(obj.handler);
@@ -243,10 +244,14 @@ export class AgmDataLayer implements OnInit, OnDestroy, OnChanges {
   }
 
   /** @internal */
-  id(): string { return this._id; }
+  id(): string {
+    return this._id;
+  }
 
   /** @internal */
-  toString(): string { return `AgmDataLayer-${this._id.toString()}`; }
+  toString(): string {
+    return `AgmDataLayer-${this._id.toString()}`;
+  }
 
   /** @internal */
   ngOnDestroy() {
